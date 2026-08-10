@@ -1,0 +1,27 @@
+title: Suspicious Encoded or Downloading PowerShell
+id: 4a9085c2-57e2-43a0-aa83-7138578310a1
+status: experimental
+description: Detects PowerShell command lines associated with encoded execution or remote payload retrieval.
+author: Joshua Hernandez
+date: 2026-08-10
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_image:
+    Image|endswith: '\\powershell.exe'
+  selection_command:
+    CommandLine|contains:
+      - '-EncodedCommand'
+      - 'FromBase64String'
+      - 'DownloadString'
+      - 'Invoke-Expression'
+  condition: selection_image and selection_command
+falsepositives:
+  - Approved administration or deployment scripts
+level: high
+tags:
+  - attack.execution
+  - attack.t1059.001
+  - attack.t1105
+

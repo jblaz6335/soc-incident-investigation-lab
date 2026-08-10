@@ -1,0 +1,25 @@
+title: Windows Brute Force Followed by Successful Logon
+id: 3fd94390-6b63-48bb-9bf0-6ba4c0476130
+status: experimental
+description: Detects repeated Windows logon failures followed by a success for the same user and source.
+author: Joshua Hernandez
+date: 2026-08-10
+logsource:
+  product: windows
+  service: security
+detection:
+  failure:
+    EventID: 4625
+  success:
+    EventID: 4624
+  timeframe: 10m
+  condition: failure | count(UserName, IpAddress) >= 5 followed_by success
+falsepositives:
+  - Password synchronization failures
+  - Misconfigured services or scheduled tasks
+level: high
+tags:
+  - attack.credential_access
+  - attack.t1110
+  - attack.t1078
+

@@ -1,0 +1,21 @@
+title: PowerShell External Network Connection
+id: 93048b90-11d8-4fee-992d-52cbcab10f08
+status: experimental
+description: Detects PowerShell making a network connection, suitable for enrichment with an external-address filter.
+author: Joshua Hernandez
+date: 2026-08-10
+logsource:
+  product: windows
+  category: network_connection
+detection:
+  selection:
+    Image|endswith: '\\powershell.exe'
+    Initiated: 'true'
+  condition: selection
+falsepositives:
+  - Administrative scripts and software-management tooling
+level: medium
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+
