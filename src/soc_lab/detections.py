@@ -65,7 +65,9 @@ def detect_suspicious_powershell(events: list[SecurityEvent]) -> list[Finding]:
         "invoke-expression",
         "iex(",
     )
-    matches_by_identity: dict[tuple[str, str], list[tuple[SecurityEvent, tuple[str, ...]]]] = defaultdict(list)
+    matches_by_identity: dict[
+        tuple[str, str], list[tuple[SecurityEvent, tuple[str, ...]]]
+    ] = defaultdict(list)
     for event in events:
         process_text = f"{event.image} {event.command_line}".lower()
         if event.event_id not in {"1", "4104"} or "powershell" not in process_text:
@@ -185,12 +187,47 @@ def detect_sensitive_file_access(events: list[SecurityEvent]) -> list[Finding]:
     return findings
 
 
+def detect_sensitive_archive_staging(events: list[SecurityEvent]) -> list[Finding]:
+    sensitive_markers = ("confidential", "restricted", "client_list", "credentials")
+    archive_extensions = (".zip", ".7z", ".rar")
+    findings: list[Finding] = []
+    for event in events:
+        target = event.target_path.lower()
+        if event.event_id != "11" or not target.endswith(archive_extensions):
+            continue
+        if not any(marker in target for marker in sensitive_markers):
+            continue
+        findings.append(
+            Finding(
+                rule_id="SOC-DATA-002",
+                title="Sensitive data staged in an archive",
+                severity="high",
+                description="A process created an archive whose name matches sensitive business data.",
+                first_seen=event.timestamp,
+                last_seen=event.timestamp,
+                evidence=(
+                    f"Sysmon Event 11 on {event.host}",
+                    f"Process: {event.image}",
+                    f"Archive: {event.target_path}",
+                ),
+                mitre_attack=("T1560.001 - Archive via Utility",),
+                recommended_actions=(
+                    "Preserve and hash the archive before containment cleanup.",
+                    "Determine whether the archive was transmitted or copied elsewhere.",
+                    "Hunt for similarly named archives across endpoints and shared storage.",
+                ),
+            )
+        )
+    return findings
+
+
 def run_detections(events: list[SecurityEvent]) -> list[Finding]:
     findings = [
         *detect_brute_force_success(events),
         *detect_suspicious_powershell(events),
         *detect_suspicious_outbound(events),
         *detect_sensitive_file_access(events),
+        *detect_sensitive_archive_staging(events),
     ]
     rank = {"critical": 0, "high": 1, "medium": 2, "low": 3}
     return sorted(findings, key=lambda item: (rank[item.severity], item.first_seen))

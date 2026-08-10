@@ -25,6 +25,7 @@ The external addresses are RFC 5737 documentation values used solely for this si
 | T1105 – Ingress Tool Transfer | `DownloadString` retrieves remote content |
 | T1071.001 – Web Protocols | Outbound TCP/443 connection |
 | T1005 – Data from Local System | Confidential file access and staging |
+| T1560.001 – Archive via Utility | Sensitive data written to a ZIP archive |
 
 ## Containment priorities
 
@@ -52,4 +53,3 @@ The external addresses are RFC 5737 documentation values used solely for this si
 ## Limitations
 
 This portfolio case uses synthetic telemetry and does not claim forensic certainty beyond the supplied evidence. A production investigation would require endpoint acquisition, identity-provider telemetry, firewall/proxy logs, asset context, and legal or privacy coordination where appropriate.
-

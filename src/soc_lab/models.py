@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -23,13 +23,13 @@ class SecurityEvent:
     raw: dict[str, Any] = field(default_factory=dict, compare=False)
 
     @classmethod
-    def from_mapping(cls, payload: dict[str, Any]) -> "SecurityEvent":
+    def from_mapping(cls, payload: dict[str, Any]) -> SecurityEvent:
         raw_timestamp = str(payload["timestamp"]).replace("Z", "+00:00")
         timestamp = datetime.fromisoformat(raw_timestamp)
         if timestamp.tzinfo is None:
-            timestamp = timestamp.replace(tzinfo=timezone.utc)
+            timestamp = timestamp.replace(tzinfo=UTC)
         return cls(
-            timestamp=timestamp.astimezone(timezone.utc),
+            timestamp=timestamp.astimezone(UTC),
             event_id=str(payload.get("event_id", "")),
             host=str(payload.get("host", "")),
             channel=str(payload.get("channel", "")),
@@ -63,4 +63,3 @@ class Finding:
         result["first_seen"] = self.first_seen.isoformat().replace("+00:00", "Z")
         result["last_seen"] = self.last_seen.isoformat().replace("+00:00", "Z")
         return result
-

@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from .analyzer import analyze, render_markdown
+from .reporting import render_html
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -16,6 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--markdown", type=Path, dest="markdown_output", help="Write Markdown findings"
     )
+    parser.add_argument("--html", type=Path, dest="html_output", help="Write interactive HTML dashboard")
     return parser
 
 
@@ -29,7 +31,9 @@ def main() -> int:
     if args.markdown_output:
         args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
         args.markdown_output.write_text(render_markdown(result), encoding="utf-8")
+    if args.html_output:
+        args.html_output.parent.mkdir(parents=True, exist_ok=True)
+        args.html_output.write_text(render_html(result), encoding="utf-8")
 
     print(json.dumps(result, indent=2))
     return 0
-

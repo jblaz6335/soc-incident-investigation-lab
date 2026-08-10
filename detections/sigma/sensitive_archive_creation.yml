@@ -1,0 +1,31 @@
+title: Sensitive Data Archive Created by PowerShell
+id: 077b4938-ad78-4778-adc7-81e71d7f1fd1
+status: experimental
+description: Detects PowerShell creating an archive whose name contains a sensitive-data marker.
+author: Joshua Hernandez
+date: 2026-08-10
+logsource:
+  product: windows
+  category: file_event
+detection:
+  selection_process:
+    Image|endswith: '\\powershell.exe'
+  selection_archive:
+    TargetFilename|endswith:
+      - '.zip'
+      - '.7z'
+      - '.rar'
+  selection_sensitive:
+    TargetFilename|contains:
+      - 'confidential'
+      - 'restricted'
+      - 'client_list'
+      - 'credentials'
+  condition: selection_process and selection_archive and selection_sensitive
+falsepositives:
+  - Approved administrative packaging tasks
+level: high
+tags:
+  - attack.collection
+  - attack.t1560.001
+
