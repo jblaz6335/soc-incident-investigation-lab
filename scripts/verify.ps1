@@ -13,6 +13,8 @@ try {
         --json output/findings.json `
         --markdown output/findings.md `
         --html output/dashboard.html | Out-Null
+    git diff --check
+    if ($LASTEXITCODE -ne 0) { throw "Git whitespace validation failed." }
     Write-Output "Verification complete. Open output\dashboard.html to review the analyst dashboard."
 }
 finally {

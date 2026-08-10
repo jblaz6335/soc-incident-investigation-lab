@@ -72,4 +72,3 @@ def load_evtx_events(path: str | Path) -> list[SecurityEvent]:
             except (ElementTree.ParseError, TypeError, ValueError) as error:
                 raise ValueError(f"Invalid EVTX record {record_number}: {error}") from error
     return sorted(events, key=lambda event: event.timestamp)
-

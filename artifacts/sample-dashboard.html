@@ -50,8 +50,7 @@
     <section class="panel">
       <h2>Correlated findings</h2>
       <div class="controls"><button class="active" data-filter="all">All</button><button data-filter="critical">Critical</button><button data-filter="high">High</button></div>
-      <div class="findings">
-        <article class="finding" data-severity="critical">
+      <div class="findings"><article class="finding" data-severity="critical">
           <div class="finding-head">
             <span class="badge critical">critical</span>
             <code>SOC-AUTH-001</code>
@@ -67,9 +66,7 @@
             <h4>Recommended actions</h4>
             <ul><li>Disable or contain the affected account.</li><li>Revoke active sessions and reset credentials.</li><li>Block the source and investigate adjacent authentication activity.</li></ul>
           </details>
-        </article>
-        
-        <article class="finding" data-severity="high">
+        </article><article class="finding" data-severity="high">
           <div class="finding-head">
             <span class="badge high">high</span>
             <code>SOC-EXEC-001</code>
@@ -85,9 +82,7 @@
             <h4>Recommended actions</h4>
             <ul><li>Isolate the endpoint and preserve process telemetry.</li><li>Collect the PowerShell script-block and parent-process evidence.</li><li>Hunt for the command indicators across the environment.</li></ul>
           </details>
-        </article>
-        
-        <article class="finding" data-severity="high">
+        </article><article class="finding" data-severity="high">
           <div class="finding-head">
             <span class="badge high">high</span>
             <code>SOC-NET-001</code>
@@ -103,9 +98,7 @@
             <h4>Recommended actions</h4>
             <ul><li>Block and enrich the destination indicator.</li><li>Review proxy, DNS, and firewall telemetry for related activity.</li></ul>
           </details>
-        </article>
-        
-        <article class="finding" data-severity="high">
+        </article><article class="finding" data-severity="high">
           <div class="finding-head">
             <span class="badge high">high</span>
             <code>SOC-DATA-001</code>
@@ -121,9 +114,7 @@
             <h4>Recommended actions</h4>
             <ul><li>Determine whether the file was staged, copied, or exfiltrated.</li><li>Notify the data owner and preserve file-access evidence.</li></ul>
           </details>
-        </article>
-        
-        <article class="finding" data-severity="high">
+        </article><article class="finding" data-severity="high">
           <div class="finding-head">
             <span class="badge high">high</span>
             <code>SOC-DATA-002</code>
@@ -139,8 +130,7 @@
             <h4>Recommended actions</h4>
             <ul><li>Preserve and hash the archive before containment cleanup.</li><li>Determine whether the archive was transmitted or copied elsewhere.</li><li>Hunt for similarly named archives across endpoints and shared storage.</li></ul>
           </details>
-        </article>
-        </div>
+        </article></div>
     </section>
     <section class="panel">
       <h2>Event timeline</h2>

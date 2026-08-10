@@ -34,4 +34,3 @@ I would normalize to ECS or OCSF, add asset and identity context, validate Sigma
 ## Safe sharing rule
 
 Keep this repository private until personal details, commit metadata, and portfolio text are reviewed. Never add real passwords, tokens, client logs, employer telemetry, or confidential incident evidence.
-

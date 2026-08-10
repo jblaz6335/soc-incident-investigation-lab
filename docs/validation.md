@@ -33,4 +33,3 @@ Fixture source: <https://github.com/williballenthin/python-evtx/tree/master/test
 ## Continuous integration
 
 GitHub Actions installs the project with EVTX support, runs the full test suite, and generates JSON, Markdown, and HTML reports on every push and pull request.
-

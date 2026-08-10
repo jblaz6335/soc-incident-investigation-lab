@@ -29,7 +29,7 @@ def render_html(result: dict) -> str:
             <ul>{''.join(f'<li>{_escape(value)}</li>' for value in item['recommended_actions'])}</ul>
           </details>
         </article>
-        """
+        """.strip()
         for item in findings
     )
     timeline_rows = "".join(

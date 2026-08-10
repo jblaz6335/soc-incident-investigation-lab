@@ -51,4 +51,3 @@ Contain immediately when the evidence supports unauthorized access and active po
 - Credentials reset and active sessions revoked
 - Monitoring performed after recovery
 - Detection gaps and hardening actions assigned owners
-
