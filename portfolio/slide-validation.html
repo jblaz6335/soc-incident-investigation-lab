@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SOC Lab Validation</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{font-family:Segoe UI,Arial,sans-serif;background:#06101d;color:#edf6ff}.frame{width:1280px;height:720px;padding:54px 66px;background:radial-gradient(circle at 12% 90%,#113452 0,transparent 35%),linear-gradient(135deg,#071421,#0b1d2e)}.eyebrow{color:#48dcff;font-size:15px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}.header{display:flex;justify-content:space-between;align-items:end;margin:14px 0 30px}.header h1{font-size:48px;margin:0;letter-spacing:-.03em}.header p{color:#9db2c6;max-width:430px;font-size:17px;line-height:1.45;margin:0}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.panel{border:1px solid #21435f;border-radius:18px;background:rgba(10,29,47,.9);padding:24px}.panel h2{font-size:21px;margin:0 0 18px}.tests{display:grid;grid-template-columns:1fr 1fr;gap:11px}.test{border:1px solid #244762;border-radius:11px;padding:12px 13px;color:#afc2d3;background:#0a2135}.test b{color:#56e2ae;margin-right:8px}.techs{display:flex;flex-wrap:wrap;gap:10px}.tech{border:1px solid #2b526f;background:#0a2135;color:#b6c8d8;border-radius:10px;padding:10px 12px;font-weight:700}.result{display:flex;gap:14px;margin-top:20px}.card{flex:1;border-radius:14px;padding:17px;border:1px solid #21435f;background:#0a2135}.card small{color:#93abc0;text-transform:uppercase;letter-spacing:.09em}.card strong{display:block;margin-top:8px;font-size:24px}.green{color:#56e2ae}.cyan{color:#48dcff}.footer{margin-top:22px;padding:16px 19px;border-left:4px solid #48dcff;background:#0a2135;color:#a9bed0;font-size:16px;line-height:1.45}</style>
+</head>
+<body><main class="frame">
+<div class="eyebrow">Validation and Engineering</div>
+<div class="header"><h1>Built to be tested and reviewed</h1><p>The project separates collection, normalization, detection, correlation, and reporting so each part can be validated independently.</p></div>
+<section class="grid">
+ <article class="panel"><h2>Automated validation coverage</h2><div class="tests">
+  <div class="test"><b>✓</b>Complete attack chain</div><div class="test"><b>✓</b>Authentication grouping</div>
+  <div class="test"><b>✓</b>Benign process exclusion</div><div class="test"><b>✓</b>Internal network exclusion</div>
+  <div class="test"><b>✓</b>Archive staging</div><div class="test"><b>✓</b>EVTX normalization</div>
+  <div class="test"><b>✓</b>Malformed input handling</div><div class="test"><b>✓</b>Conservative disposition</div>
+ </div><div class="result"><div class="card"><small>EVTX fixture</small><strong class="green">2,261 records</strong></div><div class="card"><small>Reporting formats</small><strong class="cyan">JSON · MD · HTML</strong></div></div></article>
+ <article class="panel"><h2>MITRE ATT&amp;CK coverage</h2><div class="techs">
+  <span class="tech">T1110 Brute Force</span><span class="tech">T1078 Valid Accounts</span><span class="tech">T1059.001 PowerShell</span><span class="tech">T1105 Tool Transfer</span><span class="tech">T1071.001 Web Protocols</span><span class="tech">T1005 Local Data</span><span class="tech">T1560.001 Archive</span>
+ </div><div class="result"><div class="card"><small>Detections</small><strong>5</strong></div><div class="card"><small>Sigma rules</small><strong>4</strong></div></div></article>
+</section>
+<div class="footer">The included collector reads selected Windows event logs only. It does not modify audit policy, services, logging configuration, or endpoint security controls.</div>
+</main></body></html>
