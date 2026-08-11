@@ -28,4 +28,3 @@ I created a dependency-light Python analyzer that accepts JSONL or authorized EV
 ## Safety note
 
 All names, hosts, addresses, paths, and events are synthetic. No client information, real credentials, malware, or private incident data is included.
-
