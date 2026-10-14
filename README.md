@@ -4,6 +4,18 @@ A lightweight, reproducible Security Operations Center (SOC) portfolio project t
 
 The project is designed to demonstrate practical alert triage and incident-response skills without running malware, attacking an external system, or requiring a resource-heavy SIEM.
 
+## See the investigation
+
+![Investigation dashboard with correlated findings](portfolio/02-dashboard.png)
+
+[Incident report](docs/incident-report.md) · [Investigation timeline](docs/investigation-timeline.md) · [Validation record](docs/validation.md) · [Sample dashboard source](artifacts/sample-dashboard.html)
+
+The included case uses synthetic evidence. Open the sample HTML locally to inspect the dashboard, or run the quick start below to regenerate it.
+
+## Engineering decisions
+
+The pipeline normalizes JSONL and EVTX events, runs Python detections, correlates the findings, and produces analyst reports. Tests cover the expected attack chain, benign activity, malformed input, and partial evidence that requires review. See [architecture](docs/architecture.md) and [test source](tests/test_analyzer.py).
+
 ## Investigation scenario
 
 An external source performs repeated failed logons against a workstation account. The same source then authenticates successfully. Minutes later, PowerShell runs an encoded download command, connects to an external documentation-range address, and accesses a file marked confidential.
